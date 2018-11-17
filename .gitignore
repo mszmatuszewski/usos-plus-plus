@@ -1,0 +1,6 @@
+# Log file
+*.log
+
+.idea/
+target/
+usos-plus-plus.iml
