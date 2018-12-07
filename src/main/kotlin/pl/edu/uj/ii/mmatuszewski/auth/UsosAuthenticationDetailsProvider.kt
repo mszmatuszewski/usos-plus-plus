@@ -9,4 +9,8 @@ class UsosAuthenticationDetailsProvider {
 
     lateinit var key: String
     lateinit var secret: String
+
+    lateinit var requestTokenUrl: String
+    lateinit var userAuthUrl: String
+    lateinit var accessTokenUrl: String
 }
