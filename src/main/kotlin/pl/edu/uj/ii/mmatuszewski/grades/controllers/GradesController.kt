@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 import pl.edu.uj.ii.mmatuszewski.grades.services.GradeAverageService
-import pl.edu.uj.ii.mmatuszewski.roundToTwoDecimalPlaces
+import pl.edu.uj.ii.mmatuszewski.roundToTwoDecimalPlacesAsString
 
 @Controller
 @RequestMapping("/grades")
@@ -29,7 +29,7 @@ class GradesController(val courseProvider: CourseProvider,
         val selectedCourses = courses ?: arrayOf()
         val averagedCourses = courseProvider.provide().filter { it.name in selectedCourses }
         model["courses"] = courseProvider.provide()
-        model["average"] = gradeAverageService.calculate(averagedCourses).roundToTwoDecimalPlaces()
+        model["average"] = gradeAverageService.calculate(averagedCourses).roundToTwoDecimalPlacesAsString()
 
         return ModelAndView("grades", model)
     }
