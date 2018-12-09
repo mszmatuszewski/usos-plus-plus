@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.oauth.common.signature.SharedConsumerSecretImpl
 import org.springframework.security.oauth.consumer.BaseProtectedResourceDetails
 import org.springframework.security.oauth.consumer.InMemoryProtectedResourceDetailsService
+import org.springframework.security.oauth.consumer.OAuthConsumerSupport
 import org.springframework.security.oauth.consumer.ProtectedResourceDetails
 import org.springframework.security.oauth.consumer.ProtectedResourceDetailsService
+import org.springframework.security.oauth.consumer.client.CoreOAuthConsumerSupport
 import org.springframework.security.oauth.consumer.client.OAuthRestTemplate
 
 @Configuration
@@ -36,5 +38,12 @@ class OAuthConfig(val detailsProvider: UsosAuthenticationDetailsProvider) {
     @Bean
     fun oauthRestTemplate(): OAuthRestTemplate {
         return OAuthRestTemplate(usosResource())
+    }
+
+    @Bean
+    fun oauthConsumer(): OAuthConsumerSupport {
+        val support = CoreOAuthConsumerSupport()
+        support.protectedResourceDetailsService = detailsService(usosResource())
+        return support
     }
 }

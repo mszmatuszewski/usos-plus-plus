@@ -11,7 +11,7 @@ class HttpConfig : WebSecurityConfigurerAdapter() {
         // @formatter:off
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/login", "/css/**").permitAll()
+                    .antMatchers("/login", "/webjars/**", "/css/**").permitAll()
                 .anyRequest()
                     .fullyAuthenticated()
                     .and()

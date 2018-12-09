@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>USOS++</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+
+</head>
+<body>
+
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+
+<script language="JavaScript">
+    function toggle(source) {
+        checkboxes = document.getElementsByName("course");
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+
+<div class="container">
+
+    <div class="starter-template">
+        <form action="/grades/calculate" method="get">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <td><input onclick="toggle(this)" type="checkbox"></td>
+                <td>Course name</td>
+                <td>Grade</td>
+                <td>ECTS</td>
+                </thead>
+                <tr th:each="course : ${courses}">
+                    <td>
+                        <input name="course" th:value="${course.name}" type="checkbox">
+                    </td>
+                    <td>
+                        <label th:text="${course.name}"></label>
+                    </td>
+                    <td>
+                        <label th:text="${course.grade}"></label>
+                    </td>
+                    <td>
+                        <label th:text="${course.ects}"></label>
+                    </td>
+                </tr>
+            </table>
+            <input class="btn-primary" type="submit" value="Calculate">
+        </form>
+        <div th:if="${average}"><h3>Your grade average is </h3>
+            <span th:text="${average}"></span>
+        </div>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+        type="text/javascript"></script>
+
+</body>
+</html>
