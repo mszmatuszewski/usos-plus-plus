@@ -1,5 +1,8 @@
 package pl.edu.uj.ii.mmatuszewski.schedule.services
 
+import org.slf4j.LoggerFactory
+import org.springframework.core.env.Environment
+import org.springframework.core.env.get
 import org.springframework.stereotype.Service
 import pl.edu.uj.ii.mmatuszewski.schedule.ClassType.*
 import pl.edu.uj.ii.mmatuszewski.schedule.Event
@@ -10,6 +13,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.LocalTime.*
 import java.time.temporal.TemporalAdjusters.*
+import javax.annotation.PostConstruct
 
 @Service
 class ClassesService {
@@ -53,4 +57,13 @@ class ClassesService {
 
     private fun LocalDateTime.withHourlyOffset(offset: LocalTime): LocalDateTime =
             this.withHour(offset.hour).withMinute(offset.minute)
+
+    @PostConstruct
+    fun logDbDetails(environment: Environment) {
+        val logger = LoggerFactory.getLogger(ClassesService::class.java)
+        logger.error("SPRING_DATASOURCE_URL {}", environment["spring.datasource.url"])
+        logger.error("SPRING_DATASOURCE_USERNAME {}", environment["spring.datasource.username"])
+        logger.error("SPRING_DATASOURCE_PASSWORD {}", environment["spring.datasource.password"])
+
+    }
 }
