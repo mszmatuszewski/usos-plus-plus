@@ -16,7 +16,7 @@ import java.time.temporal.TemporalAdjusters.*
 import javax.annotation.PostConstruct
 
 @Service
-class ClassesService {
+class ClassesService(val environment: Environment) {
 
     fun provide(): List<Subject> = listOf(
             Subject(1, "Effective Python", LECTURE,
@@ -59,7 +59,7 @@ class ClassesService {
             this.withHour(offset.hour).withMinute(offset.minute)
 
     @PostConstruct
-    fun logDbDetails(environment: Environment) {
+    fun logDbDetails() {
         val logger = LoggerFactory.getLogger(ClassesService::class.java)
         logger.error("SPRING_DATASOURCE_URL {}", environment["spring.datasource.url"])
         logger.error("SPRING_DATASOURCE_USERNAME {}", environment["spring.datasource.username"])
