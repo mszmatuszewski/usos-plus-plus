@@ -12,10 +12,9 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li th:unless="${#httpServletRequest.getServletPath().equals(&quot;/&quot;)}"><a href="/">Home</a></li>
-                <li th:unless="${#httpServletRequest.getServletPath().startsWith(&quot;/grades&quot;)}">
-                    <a href="/grades/list">Grades</a>
-                </li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/grades/list">Grades</a></li>
+                <li><a href="/schedule/retrieve">Schedule planning</a></li>
             </ul>
         </div>
     </div>

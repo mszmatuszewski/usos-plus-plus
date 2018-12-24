@@ -8,9 +8,7 @@ import org.springframework.web.servlet.ModelAndView
 class LandingPageController {
 
     @GetMapping("/")
-    fun homePage(model: ModelAndView): ModelAndView {
-        model.viewName = "index"
-        model.model["test"] = "just testing"
-        return model
+    fun homePage(model: ModelAndView): String {
+        return "index"
     }
 }

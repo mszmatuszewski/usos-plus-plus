@@ -12,6 +12,3 @@ fun main(args: Array<String>) {
     runApplication<SpringApplication>(*args)
 }
 
-fun Double.roundToTwoDecimalPlacesAsString(): String {
-    return String.format("%.2f", this)
-}

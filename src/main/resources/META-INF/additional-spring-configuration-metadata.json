@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "usos.consumer.userAuthUrl",
+      "type": "java.lang.String",
+      "description": "OAuth user authentication url."
+    },
+    {
+      "name": "usos.consumer.requestTokenUrl",
+      "type": "java.lang.String",
+      "description": "OAuth request token url."
+    },
+    {
+      "name": "usos.consumer.accessTokenUrl",
+      "type": "java.lang.String",
+      "description": "OAuth access token url."
+    }
+  ]
+}

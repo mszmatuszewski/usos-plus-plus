@@ -26,7 +26,10 @@
 <div class="container">
 
     <div class="starter-template">
-        <form action="/grades/calculate" method="get">
+        <form method="get" th:action="@{/grades/calculate}">
+            <div th:if="${average}"><h3 th:text="'Your grade average is ' + ${average}"></h3></div>
+            <input class="btn-primary" type="submit" value="Calculate">
+            <br/>
             <table class="table table-bordered table-striped">
                 <thead>
                 <td><input onclick="toggle(this)" type="checkbox"></td>
@@ -49,17 +52,12 @@
                     </td>
                 </tr>
             </table>
-            <input class="btn-primary" type="submit" value="Calculate">
         </form>
-        <div th:if="${average}"><h3>Your grade average is </h3>
-            <span th:text="${average}"></span>
-        </div>
     </div>
-
 </div>
 <!-- /.container -->
 
-<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
         type="text/javascript"></script>
 
 </body>

@@ -15,10 +15,10 @@ class GradesProviderService : CourseDataProvider {
     }
 
     private fun fetchGrade(course: Course): Double {
-        return roundToHalf(random.nextDouble(2.0, 5.0))
+        return random.nextDouble(2.0, 5.0).roundToHalf()
     }
 
-    private fun roundToHalf(d: Double): Double {
-        return round(d * 2) / 2.0
+    private fun Double.roundToHalf(): Double {
+        return round(this * 2) / 2.0
     }
 }
