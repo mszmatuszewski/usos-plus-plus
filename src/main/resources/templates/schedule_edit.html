@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>USOS++</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body>
+
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+
+<div class="container">
+
+    <div class="starter-template" style="width: 90%">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Day of week</th>
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Location</th>
+                <th>Lecturer</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="classes" type="pl.edu.uj.ii.mmatuszewski.schedule.model.SubjectWithEventCollection"*/-->
+            <tr th:each="event : ${classes.data}">
+                <td>
+                    <label th:text="${event.name}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.type}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.dayOfWeek}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.start}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.end}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.location}"></label>
+                </td>
+                <td>
+                    <label th:text="${event.lecturer}"></label>
+                </td>
+                <td>
+                    <a th:href="@{/schedule/edit/details/{id}(id=${event.id})}"><span
+                            class="glyphicon glyphicon-pencil"></span></a>
+                </td>
+                <td>
+                    <a th:href="@{/schedule/edit/delete/{id}(id=${event.id})}"><span
+                            class="glyphicon glyphicon-remove"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form th:action="@{/schedule/edit/details}">
+                        <input class="btn btn-primary" type="submit" value="Add new">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- /.container -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+        type="text/javascript"></script>
+
+</body>
+</html>

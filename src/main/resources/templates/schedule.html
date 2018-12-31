@@ -51,15 +51,20 @@
                     <div id="calendar"></div>
                 </td>
                 <td>
-                    <form method="get" th:action="@{/schedule/retrieve}" th:object="${payload}">
-                        <div th:each="subject, subjectStat : *{subjects}">
+                    <form th:action="@{/schedule/edit}">
+                        <input class="btn btn-primary" type="submit" value="Edit">
+                    </form>
+                    <!--/*@thymesVar id="subjectViews" type="pl.edu.uj.ii.mmatuszewski.schedule.model.SubjectViews"*/-->
+                    <form method="post" th:action="@{/schedule}" th:object="${subjectViews}">
+                        <div class="form-group-sm" th:each="subject, subjectStat : *{subjects}">
                             <span
                                     th:text="*{subjects[__${subjectStat.index}__].name} + ' (' + *{subjects[__${subjectStat.index}__].type.toString().toLowerCase()} + ')'"></span>
-                            <select onchange="this.form.submit()"
-                                    th:field="*{subjects[__${subjectStat.index}__].occurences}">
+                            <select class="custom-select" onchange="this.form.submit()"
+                                    th:id="'subjects['+${subjectStat.index}+']'"
+                                    th:name="'subjects['+${subjectStat.index}+']'">
                                 <option th:each="occurence : *{subjects[__${subjectStat.index}__].occurences}"
-                                        th:text="${occurence.display()}" th:value="${occurence.id}"
-                                ></option>
+                                        th:selected="${occurence.selected}" th:text="${occurence.title}"
+                                        th:value="${occurence.id}"></option>
                             </select>
                             <br/>
                         </div>

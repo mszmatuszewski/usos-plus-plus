@@ -12,9 +12,11 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/grades/list">Grades</a></li>
-                <li><a href="/schedule/retrieve">Schedule planning</a></li>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/grades/list}">Grades</a></li>
+                <li><a th:href="@{/schedule}">Schedule planning</a></li>
+                <li><a th:href="@{/calendar/display}">Calendar</a></li>
+                <li><a th:href="@{/logout}">Log out</a></li>
             </ul>
         </div>
     </div>
