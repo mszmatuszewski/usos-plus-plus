@@ -41,7 +41,7 @@ abstract class AbstractUsosConnectorService<RS>(
         val response = usosConnector.execute(request)
         if (response.code !in 200..299) {
             LOGGER.error("Invalid response {}}", response.body)
-            if (response.body.startsWith(INVALID_ACCESS_TOKEN)) {
+            if (response.code == 401) {
                 invalidateAccessToken(resourceOwner)
                 throw PreAuthenticatedCredentialsNotFoundException(INVALID_ACCESS_TOKEN)
             }
