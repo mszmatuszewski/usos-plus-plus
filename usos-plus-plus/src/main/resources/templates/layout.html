@@ -8,6 +8,11 @@
 <nav class="navbar navbar-inverse" th:fragment="header">
     <div class="container">
         <div class="navbar-header">
+            <button class="navbar-toggle navigation-button" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="/">USOS++</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar">
@@ -16,6 +21,8 @@
                 <li><a th:href="@{/grades/list}">Grades</a></li>
                 <li><a th:href="@{/schedule}">Schedule planning</a></li>
                 <li><a th:href="@{/calendar/display}">Calendar</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li><a th:href="@{/logout}">Log out</a></li>
             </ul>
         </div>

@@ -36,7 +36,8 @@ class CalendarController(private val calendarService: CalendarService) {
         model["events"] = calendarService.retrieveAllAsDisplay(username)
         model["link"] = servletRequest.requestURL
                 .replace("/display".toRegex(), "/retrieve/")
-                .replace("http://", "webcal://") +
+                .replace("http://", "webcal://")
+                .replace("https://", "webcal://") +
                 calendarService.getIdFromUsername(username)
         return ModelAndView("calendar", model)
     }

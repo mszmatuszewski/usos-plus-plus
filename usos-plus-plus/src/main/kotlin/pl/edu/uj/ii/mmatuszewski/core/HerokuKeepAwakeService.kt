@@ -12,7 +12,7 @@ class HerokuKeepAwakeService(private val usosAuthenticationDetailsProvider: Usos
 
     private val LOGGER = getLogger(HerokuKeepAwakeService::class.java)
 
-    @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedRate = 15 * 60 * 1000)
     fun ping() {
         RestTemplate().getForObject<String>(usosAuthenticationDetailsProvider.appUrl)
         LOGGER.info("Self-pinged ${usosAuthenticationDetailsProvider.appUrl}")
