@@ -37,6 +37,9 @@ class HttpConfig(private val userService: LocalUserService) : WebSecurityConfigu
                 .logout()
                     .logoutRequestMatcher(AntPathRequestMatcher("/logout"))
                 .and()
+                .rememberMe()
+                    .alwaysRemember(true)
+                .and()
                 .sessionManagement()
                     .maximumSessions(1)
         // @formatter:on
