@@ -23,4 +23,11 @@ class LocalUserService(private val userRepository: UserRepository) : UserDetails
         user.usosUserId = id
         userRepository.save(user)
     }
+
+    fun invalidateAccessToken(user: User) {
+        user.usosAccessToken = null
+        user.usosAccessSecret = null
+        user.usosUserId = null
+        userRepository.save(user)
+    }
 }

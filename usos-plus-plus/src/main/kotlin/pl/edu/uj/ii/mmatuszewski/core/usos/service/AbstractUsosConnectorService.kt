@@ -20,6 +20,7 @@ abstract class AbstractUsosConnectorService<RS>(
 ) {
 
     private val LOGGER = LoggerFactory.getLogger(this.javaClass)
+    private val INVALID_ACCESS_TOKEN = "Invalid access token"
     protected val mapper: ObjectMapper =
             ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
@@ -40,9 +41,17 @@ abstract class AbstractUsosConnectorService<RS>(
         val response = usosConnector.execute(request)
         if (response.code !in 200..299) {
             LOGGER.error("Invalid response {}}", response.body)
+            if (response.body.startsWith(INVALID_ACCESS_TOKEN)) {
+                invalidateAccessToken(resourceOwner)
+                throw PreAuthenticatedCredentialsNotFoundException(INVALID_ACCESS_TOKEN)
+            }
             throw HttpClientErrorException(HttpStatus.valueOf(response.code))
         }
         return extractResponse(response.body)
+    }
+
+    private fun invalidateAccessToken(resourceOwner: User) {
+        localUserService.invalidateAccessToken(resourceOwner)
     }
 
     private fun encodeRequest(endpoint: String, params: Map<String, String>): OAuthRequest =
