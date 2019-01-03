@@ -3,4 +3,4 @@
 
 .idea/
 target/
-usos-plus-plus.iml
+*.iml

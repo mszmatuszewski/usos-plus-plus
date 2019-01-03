@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>USOS++</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css' rel='stylesheet'/>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js'></script>
+
+    <script language="JavaScript" th:inline="javascript">
+        /*<![CDATA[*/
+        var eventList = /*[[${calendarClasses}]]*/ [];
+
+        console.log(eventList);
+
+        $(function () {
+            $('#calendar').fullCalendar({
+                height: 675,
+                defaultView: "agendaWeek",
+                minTime: "07:00:00",
+                maxTime: "21:00:00",
+                weekends: false,
+                header: false,
+                allDaySlot: false,
+                columnHeaderFormat: "ddd",
+                slotLabelFormat: "HH:mm",
+                timeFormat: "HH:mm",
+                slotEventOverlap: false,
+                events: eventList
+            })
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+
+<div class="container">
+
+    <div class="starter-template" style="width: 90%">
+        <table>
+            <tr>
+                <td>
+                    <div id="calendar"></div>
+                </td>
+                <td>
+                    <form th:action="@{/schedule/edit}">
+                        <input class="btn btn-primary" type="submit" value="Edit">
+                    </form>
+                    <!--/*@thymesVar id="subjectViews" type="pl.edu.uj.ii.mmatuszewski.services.schedule.model.SubjectViews"*/-->
+                    <form method="post" th:action="@{/schedule}" th:object="${subjectViews}">
+                        <div class="form-group-sm" th:each="subject, subjectStat : *{subjects}">
+                            <span
+                                    th:text="*{subjects[__${subjectStat.index}__].name} + ' (' + *{subjects[__${subjectStat.index}__].type.toString().toLowerCase()} + ')'"></span>
+                            <select class="custom-select" onchange="this.form.submit()"
+                                    th:id="'subjects['+${subjectStat.index}+']'"
+                                    th:name="'subjects['+${subjectStat.index}+']'">
+                                <option th:each="occurence : *{subjects[__${subjectStat.index}__].occurences}"
+                                        th:selected="${occurence.selected}" th:text="${occurence.title}"
+                                        th:value="${occurence.id}"></option>
+                            </select>
+                            <br/>
+                        </div>
+                        <br/>
+                    </form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+        type="text/javascript"></script>
+
+</body>
+</html>
