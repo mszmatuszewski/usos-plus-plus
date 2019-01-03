@@ -3,7 +3,7 @@ package pl.edu.uj.ii.mmatuszewski.services.grades.service
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import pl.edu.uj.ii.mmatuszewski.core.auth.model.User
 import pl.edu.uj.ii.mmatuszewski.core.auth.service.LocalUserService
@@ -20,7 +20,7 @@ class CourseProviderService(private val userCoursesDataProvider: UserCoursesData
                             private val examReportDataProvider: ExamReportDataProvider,
                             private val localUserService: LocalUserService) : CourseProvider {
 
-    @CachePut("grades")
+    @Cacheable("grades")
     override fun provide(owner: String): List<Course> {
         val user = localUserService.loadUserByUsername(owner) as User
         val userCourses = userCoursesDataProvider.provide(owner)
