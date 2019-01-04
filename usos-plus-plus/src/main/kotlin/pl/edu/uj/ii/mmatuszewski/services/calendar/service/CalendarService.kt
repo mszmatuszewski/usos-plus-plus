@@ -20,20 +20,23 @@ class CalendarService(private val removedEventsRepository: RemovedEventsReposito
     fun retrieveAndFilter(usosUserId: String): String {
         val owner = userRepository.findByUsosUserId(usosUserId)?.username
                     ?: throw UsernameNotFoundException("No user with ID $usosUserId")
-        val ical = ICalendar()
         val eventsToRemove = removedEventsRepository.findAllByOwner(owner).map { it.id }
-        retrieveAll(owner)
-                .filter { it.uid.value !in eventsToRemove }
-                .forEach(ical::addEvent)
-        return Biweekly.write(ical).go()
+        val originalCalendar = retrieveAll(owner)
+        val newCalendar = ICalendar()
+        newCalendar.timezoneInfo = originalCalendar.timezoneInfo
+        newCalendar.productId = originalCalendar.productId
+        newCalendar.refreshInterval = originalCalendar.refreshInterval
+        originalCalendar.experimentalProperties.forEach { newCalendar.setExperimentalProperty(it.name, it.dataType, it.value) }
+        originalCalendar.events.filter { it.uid.value !in eventsToRemove }.forEach(newCalendar::addEvent)
+        return Biweekly.write(newCalendar).go()
     }
 
     fun retrieveAllAsDisplay(owner: String): List<EventDisplay> {
         val filteredEvents = removedEventsRepository.findAllByOwner(owner).map { it.id }
-        return retrieveAll(owner).map(VEvent::toDisplay).onEach { it.removed = it.id in filteredEvents }
+        return retrieveAll(owner).events.map(VEvent::toDisplay).onEach { it.removed = it.id in filteredEvents }
     }
 
-    private fun retrieveAll(owner: String): List<VEvent> = calendarDataProvider.provide(owner).events
+    private fun retrieveAll(owner: String): ICalendar = calendarDataProvider.provide(owner)
 
     fun getIdFromUsername(username: String): String = userRepository.findByName(username)?.usosUserId!!
 
