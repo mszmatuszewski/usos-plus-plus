@@ -9,5 +9,5 @@ fun VEvent.toDisplay() =
         EventDisplay(uid.value, dateStart.toLocalDateTime(), dateEnd.toLocalDateTime(), summary.value)
 
 fun DateOrDateTimeProperty.toLocalDateTime(): LocalDateTime =
-        value.toInstant().atZone(ZoneId.of("Europe/Warsaw")).toLocalDateTime()
+        value.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
 
