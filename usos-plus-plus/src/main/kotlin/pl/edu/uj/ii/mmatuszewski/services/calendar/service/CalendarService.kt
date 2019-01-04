@@ -3,6 +3,7 @@ package pl.edu.uj.ii.mmatuszewski.services.calendar.service
 import biweekly.Biweekly
 import biweekly.ICalendar
 import biweekly.component.VEvent
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,9 +18,12 @@ class CalendarService(private val removedEventsRepository: RemovedEventsReposito
                       private val userRepository: UserRepository,
                       private val calendarDataProvider: CalendarDataProvider) {
 
+    private val LOGGER = LoggerFactory.getLogger(CalendarService::class.java)
+
     fun retrieveAndFilter(usosUserId: String): String {
         val owner = userRepository.findByUsosUserId(usosUserId)?.username
                     ?: throw UsernameNotFoundException("No user with ID $usosUserId")
+        LOGGER.info("Calendar update requested for user $owner with ID $usosUserId")
         val eventsToRemove = removedEventsRepository.findAllByOwner(owner).map { it.id }
         val originalCalendar = retrieveAll(owner)
         val newCalendar = ICalendar()
