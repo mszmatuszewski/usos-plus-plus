@@ -1,14 +1,16 @@
 package pl.edu.uj.ii.mmatuszewski.services.schedule.model
 
+import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.TemporalAdjusters.*
 
 fun List<Subject>.mapToView(): List<SubjectView> = map(Subject::mapToView)
 
 private fun Subject.mapToView(): SubjectView = SubjectView(id!!, name, type, occurences.map(Event::mapToView))
 
 private fun Event.mapToView(): EventView {
-    val dayOf = LocalDateTime.of(2018, 12, 3, 0, 0)
+    val dayOf = normalisedDateTime(dayOfWeek)
 
     val begin = dayOf.offsetByLocalTime(start)
     val end = dayOf.offsetByLocalTime(end)
@@ -38,3 +40,5 @@ fun List<Subject>.mapToEdit(): SubjectWithEventCollection {
 private fun LocalDateTime.offsetByLocalTime(offset: LocalTime): LocalDateTime =
         withHour(offset.hour).withMinute(offset.minute)
 
+private fun normalisedDateTime(dayOfWeek: DayOfWeek): LocalDateTime =
+        LocalDateTime.of(2018, 12, 3, 0, 0).with(nextOrSame(dayOfWeek))
