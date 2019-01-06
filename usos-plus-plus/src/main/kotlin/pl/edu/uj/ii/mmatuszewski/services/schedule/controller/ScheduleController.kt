@@ -1,13 +1,11 @@
 package pl.edu.uj.ii.mmatuszewski.services.schedule.controller
 
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.SessionAttributes
 import org.springframework.web.servlet.ModelAndView
 import pl.edu.uj.ii.mmatuszewski.services.schedule.model.ClassType
@@ -76,6 +74,8 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     }
 
     @GetMapping("/populate")
-    @ResponseStatus(HttpStatus.OK)
-    fun populate(principal: Principal) = scheduleService.populateDummy(principal.name)
+    fun populate(principal: Principal): String {
+        scheduleService.populateDummy(principal.name)
+        return "redirect:/schedule"
+    }
 }
