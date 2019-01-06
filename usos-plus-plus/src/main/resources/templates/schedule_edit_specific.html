@@ -23,7 +23,11 @@
             <input id="id" name="id" th:value="*{id}" type="hidden">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="name">Name</label>
-                <input class="form-control" id="name" th:field="*{name}" type="text">
+                <input class="form-control" id="name" list="subjectNames" th:field="*{name}" type="text">
+                <datalist id="subjectNames">
+                    <!--/*@thymesVar id="subjectNames" type="java.util.List"*/-->
+                    <option th:each="subName : ${subjectNames}" th:label="${subName}" th:value="${subName}"></option>
+                </datalist>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="type">Type</label>
@@ -53,11 +57,19 @@
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="location">Location</label>
-                <input class="form-control" id="location" th:field="*{location}" type="text">
+                <input class="form-control" id="location" list="locations" th:field="*{location}" type="text">
+                <datalist id="locations">
+                    <!--/*@thymesVar id="locations" type="java.util.List"*/-->
+                    <option th:each="loc : ${locations}" th:label="${loc}" th:value="${loc}"></option>
+                </datalist>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="lecturer">Lecturer</label>
-                <input class="form-control" id="lecturer" th:field="*{lecturer}" type="text">
+                <input class="form-control" id="lecturer" list="lecturers" th:field="*{lecturer}" type="text">
+                <datalist id="lecturers">
+                    <!--/*@thymesVar id="lecturers" type="java.util.List"*/-->
+                    <option th:each="lec : ${lecturers}" th:label="${lec}" th:value="${lec}"></option>
+                </datalist>
             </div>
             <button class="btn btn-primary" type="submit">Save</button>
         </form>

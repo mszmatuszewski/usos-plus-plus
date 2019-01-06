@@ -32,6 +32,14 @@ class ScheduleService(private val repository: ScheduleRepository) {
         return Pair(subjectViews, renderedEvents)
     }
 
+    fun provideDatalists(owner: String): Triple<Set<String>, Set<String>, Set<String>> {
+        val subjects = repository.findAllByOwner(owner)
+        val subjectNames = subjects.map { it.name }.toSet()
+        val locations = subjects.flatMap { it.occurences }.map { it.location }.toSet()
+        val lecturers = subjects.flatMap { it.occurences }.map { it.lecturer }.toSet()
+        return Triple(subjectNames, locations, lecturers)
+    }
+
     private fun provideSubjectViews(subjects: List<Subject>): SubjectViews = SubjectViews(subjects.mapToView())
 
     private fun provideRenderedEvents(subjects: SubjectViews): List<RenderedEvent> = subjects.toRenderedEvents()

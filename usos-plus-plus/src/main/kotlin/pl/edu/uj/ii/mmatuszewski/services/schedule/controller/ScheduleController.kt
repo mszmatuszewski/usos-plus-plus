@@ -24,7 +24,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     fun classTypes() = ClassType.values()
 
     @ModelAttribute("daysOfWeek")
-    fun daysOfWeek() = DayOfWeek.values()
+    fun daysOfWeek() = DayOfWeek.values().filter { it != DayOfWeek.SATURDAY && it != DayOfWeek.SUNDAY }
 
     @GetMapping
     fun schedule(principal: Principal): ModelAndView {
@@ -50,14 +50,23 @@ class ScheduleController(private val scheduleService: ScheduleService) {
 
     @GetMapping("/edit/details")
     fun edit(principal: Principal): ModelAndView {
-        val model = mutableMapOf<String, Any?>("item" to SubjectWithEvent())
+        val (subjectNames, locations, lecturers) = scheduleService.provideDatalists(principal.name)
+        val model = mutableMapOf(
+                "item" to SubjectWithEvent(),
+                "subjectNames" to subjectNames,
+                "locations" to locations,
+                "lecturers" to lecturers)
         return ModelAndView("schedule_edit_specific", model)
     }
 
     @GetMapping("/edit/details/{id}")
     fun edit(principal: Principal, @PathVariable("id") eventId: Long): ModelAndView {
-        val model = mutableMapOf<String, Any?>(
-                "item" to scheduleService.findSubjectWithEventById(principal.name, eventId))
+        val (subjectNames, locations, lecturers) = scheduleService.provideDatalists(principal.name)
+        val model = mutableMapOf(
+                "item" to scheduleService.findSubjectWithEventById(principal.name, eventId),
+                "subjectNames" to subjectNames,
+                "locations" to locations,
+                "lecturers" to lecturers)
         return ModelAndView("schedule_edit_specific", model)
     }
 
