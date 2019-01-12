@@ -8,5 +8,5 @@ import pl.edu.uj.ii.mmatuszewski.services.schedule.model.Subject
 interface ScheduleRepository : CrudRepository<Subject, Int> {
 
     fun findAllByOwner(owner: String): List<Subject>
-    fun findByName(name: String): Subject?
+    fun deleteAllByOwner(owner: String)
 }

@@ -15,7 +15,7 @@ import pl.edu.uj.ii.mmatuszewski.core.auth.model.User
 import pl.edu.uj.ii.mmatuszewski.core.auth.service.LocalUserService
 
 abstract class AbstractUsosConnectorService<RS>(
-        protected val usosConnector: OAuth10aService,
+        private val usosConnector: OAuth10aService,
         protected val localUserService: LocalUserService
 ) {
 

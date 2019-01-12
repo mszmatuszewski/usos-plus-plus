@@ -76,6 +76,12 @@ class ScheduleController(private val scheduleService: ScheduleService) {
         return "redirect:/schedule/edit"
     }
 
+    @PostMapping("/edit/clear")
+    fun delete(principal: Principal): String {
+        scheduleService.clearSchedule(principal.name)
+        return "redirect:/schedule/edit"
+    }
+
     @GetMapping("/edit/delete/{id}")
     fun delete(principal: Principal, @PathVariable("id") eventId: Long): String {
         scheduleService.deleteSubjectWithEvent(principal.name, eventId)

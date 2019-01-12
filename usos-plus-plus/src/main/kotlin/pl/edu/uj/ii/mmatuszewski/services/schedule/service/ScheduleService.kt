@@ -112,6 +112,8 @@ class ScheduleService(private val repository: ScheduleRepository) {
         }
     }
 
+    fun clearSchedule(owner: String) = repository.deleteAllByOwner(owner)
+
     private fun findSubjectAndEventByEventId(owner: String, eventId: Long?): Pair<Subject?, Event?> {
         val subjects = repository.findAllByOwner(owner)
         val subject = subjects.find { it.occurences.any { it.id == eventId } }
