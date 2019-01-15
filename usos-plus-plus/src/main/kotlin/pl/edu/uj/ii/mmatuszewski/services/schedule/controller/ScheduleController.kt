@@ -1,6 +1,7 @@
 package pl.edu.uj.ii.mmatuszewski.services.schedule.controller
 
 import org.springframework.stereotype.Controller
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -77,6 +78,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     }
 
     @PostMapping("/edit/clear")
+    @Transactional
     fun delete(principal: Principal): String {
         scheduleService.clearSchedule(principal.name)
         return "redirect:/schedule/edit"

@@ -1,6 +1,7 @@
 package pl.edu.uj.ii.mmatuszewski.services.schedule.service
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import pl.edu.uj.ii.mmatuszewski.services.schedule.model.ClassType
 import pl.edu.uj.ii.mmatuszewski.services.schedule.model.ClassType.*
 import pl.edu.uj.ii.mmatuszewski.services.schedule.model.Event
@@ -112,6 +113,7 @@ class ScheduleService(private val repository: ScheduleRepository) {
         }
     }
 
+    @Transactional
     fun clearSchedule(owner: String) = repository.deleteAllByOwner(owner)
 
     private fun findSubjectAndEventByEventId(owner: String, eventId: Long?): Pair<Subject?, Event?> {
