@@ -19,7 +19,6 @@
         <!--/*@thymesVar id="item" type="pl.edu.uj.ii.mmatuszewski.services.schedule.model.SubjectWithEvent"*/-->
         <form method="post"
               th:action="@{/schedule/edit/details}" th:object="${item}">
-            <h1 class="content-box-title">Update item</h1>
             <input id="id" name="id" th:value="*{id}" type="hidden">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="name">Name</label>

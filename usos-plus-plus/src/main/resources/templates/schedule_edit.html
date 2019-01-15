@@ -67,7 +67,8 @@
                     <form style="display: inline-block;" th:action="@{/schedule/edit/details}">
                         <input class="btn btn-primary" type="submit" value="Add new">
                     </form>
-                    <form method="post" style="display: inline-block;" th:action="@{/schedule/edit/clear}">
+                    <form method="post" style="display: inline-block;" th:action="@{/schedule/edit/clear}"
+                          th:if="${classes.data}">
                         <input class="btn btn-danger" type="submit" value="Remove all">
                     </form>
 
