@@ -47,6 +47,7 @@ abstract class AbstractUsosConnectorService<RS>(
             }
             throw HttpClientErrorException(HttpStatus.valueOf(response.code))
         }
+        LOGGER.info("Received payload from {}: {}", endpoint, response.body)
         return extractResponse(response.body)
     }
 
