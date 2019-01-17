@@ -3,6 +3,8 @@ package pl.edu.uj.ii.mmatuszewski.services.calendar.service
 import biweekly.Biweekly
 import biweekly.ICalendar
 import biweekly.component.VEvent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
@@ -16,7 +18,8 @@ import pl.edu.uj.ii.mmatuszewski.services.calendar.repository.RemovedEventsRepos
 @Service
 class CalendarService(private val removedEventsRepository: RemovedEventsRepository,
                       private val userRepository: UserRepository,
-                      private val calendarDataProvider: CalendarDataProvider) {
+                      private val calendarDataProvider: CalendarDataProvider,
+                      private val calendarCleanupService: CalendarCleanupService) {
 
     private val LOGGER = LoggerFactory.getLogger(CalendarService::class.java)
 
@@ -32,6 +35,7 @@ class CalendarService(private val removedEventsRepository: RemovedEventsReposito
         newCalendar.refreshInterval = originalCalendar.refreshInterval
         originalCalendar.experimentalProperties.forEach { newCalendar.setExperimentalProperty(it.name, it.dataType, it.value) }
         originalCalendar.events.filter { it.uid.value !in eventsToRemove }.forEach(newCalendar::addEvent)
+        GlobalScope.launch { calendarCleanupService.enqueue(eventsToRemove, originalCalendar.events) }
         return Biweekly.write(newCalendar).go()
     }
 

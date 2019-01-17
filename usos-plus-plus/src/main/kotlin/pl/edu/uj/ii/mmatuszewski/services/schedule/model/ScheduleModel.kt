@@ -21,7 +21,8 @@ data class Subject(@Id @GeneratedValue var id: Long? = null,
                    var owner: String = "",
                    var name: String = "",
                    var type: ClassType = LECTURE,
-                   @OneToMany(cascade = [ALL]) val occurences: MutableList<Event> = mutableListOf())
+                   @OneToMany(cascade = [ALL],
+                           orphanRemoval = true) val occurences: MutableList<Event> = mutableListOf())
 
 @Entity
 data class Event(@Id @GeneratedValue var id: Long? = null,

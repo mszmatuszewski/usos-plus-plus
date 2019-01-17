@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 import pl.edu.uj.ii.mmatuszewski.services.calendar.model.RemovedEvent
 
 @Repository
-interface RemovedEventsRepository : CrudRepository<RemovedEvent, Long> {
+interface RemovedEventsRepository : CrudRepository<RemovedEvent, String> {
 
     fun findAllByOwner(owner: String): List<RemovedEvent>
 
