@@ -18,7 +18,7 @@ class CalendarCleanupService(private val removedEventsRepository: RemovedEventsR
     }
 
     @Transactional
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 10 * 60 * 1000)
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 12 * 60 * 60 * 1000)
     fun cleanup() {
         while (eventsToRemove.isNotEmpty()) {
             removedEventsRepository.deleteById(eventsToRemove.poll())
