@@ -2,6 +2,8 @@ package pl.edu.uj.ii.mmatuszewski.core.usos.controller
 
 import com.github.scribejava.core.model.OAuth1RequestToken
 import com.github.scribejava.core.oauth.OAuth10aService
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.springframework.stereotype.Controller
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +13,7 @@ import pl.edu.uj.ii.mmatuszewski.core.auth.model.User
 import pl.edu.uj.ii.mmatuszewski.core.auth.service.LocalUserService
 import pl.edu.uj.ii.mmatuszewski.core.usos.repository.RequestTokenWrapperRepository
 import pl.edu.uj.ii.mmatuszewski.core.usos.service.UsosUserDataProvider
+import pl.edu.uj.ii.mmatuszewski.services.grades.service.GradeRefreshService
 import javax.servlet.http.HttpServletRequest
 
 @Controller
@@ -18,7 +21,8 @@ import javax.servlet.http.HttpServletRequest
 class OAuthCallbackController(private val usosConnector: OAuth10aService,
                               private val localUserService: LocalUserService,
                               private val userDataProvider: UsosUserDataProvider,
-                              private val requestTokenWrapperRepository: RequestTokenWrapperRepository) {
+                              private val requestTokenWrapperRepository: RequestTokenWrapperRepository,
+                              private val gradeRefreshService: GradeRefreshService) {
 
     @GetMapping
     @Transactional
@@ -35,6 +39,8 @@ class OAuthCallbackController(private val usosConnector: OAuth10aService,
         requestTokenWrapperRepository.delete(requestTokenWrapper)
 
         localUserService.saveUsosId(user, userDataProvider.provide(user).id!!)
+
+        GlobalScope.launch { gradeRefreshService.refresh() }
 
         val redirection = requestTokenWrapper.redirection
         return "redirect:" + if (redirection.isBlank()) "/" else redirection

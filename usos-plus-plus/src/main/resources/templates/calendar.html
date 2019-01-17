@@ -28,7 +28,8 @@
     <div class="starter-template">
         <!--/*@thymesVar id="link" type="java.lang.String"*/-->
         <div class="alert alert-info" role="alert">
-            You can import your calendar via <strong><a th:href="${link}">[[${link}]]</a></strong>
+            You can import your calendar via <strong><a th:href="${link}">[[${link}]]</a></strong><br/>
+            Selected events will be <strong>hidden</strong>.
         </div>
     </div>
     <form method="post" th:action="@{/calendar/update}">
