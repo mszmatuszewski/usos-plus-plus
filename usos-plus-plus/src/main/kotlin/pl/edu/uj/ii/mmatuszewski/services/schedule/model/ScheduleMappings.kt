@@ -16,8 +16,10 @@ private fun Event.mapToView(name: String, type: ClassType): EventView {
     val begin = dayOf.offsetByLocalTime(start)
     val end = dayOf.offsetByLocalTime(end)
 
-    return EventView(id!!, "$name $displayTitle $type", begin, end, selected)
+    return EventView(id!!, "${abbreviate(name)} $displayTitle $type", begin, end, selected)
 }
+
+private fun abbreviate(value: String) = value.split(" ").map { it[0] }.map(Char::toUpperCase).joinToString()
 
 fun SubjectViews.toRenderedEvents() = subjects
         .flatMap { it.occurences }
