@@ -16,7 +16,7 @@ private fun Event.mapToView(name: String, type: ClassType): EventView {
     val begin = dayOf.offsetByLocalTime(start)
     val end = dayOf.offsetByLocalTime(end)
 
-    return EventView(id!!, "${abbreviate(name)} $displayTitle $type", begin, end, selected)
+    return EventView(id!!, "${abbreviate(name)} [$type] $displayTitle", begin, end, selected)
 }
 
 private fun abbreviate(value: String) =

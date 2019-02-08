@@ -59,7 +59,7 @@
                     </form>
                     <!--/*@thymesVar id="subjectViews" type="pl.edu.uj.ii.mmatuszewski.services.schedule.model.SubjectViews"*/-->
                     <form method="post" th:action="@{/schedule}" th:object="${subjectViews}">
-                        <div class="form-group-md col-md-6" th:each="subject, subjectStat : *{subjects}">
+                        <div class="form-group-lg col-lg-6" th:each="subject, subjectStat : *{subjects}">
                             <span
                                     th:text="*{subjects[__${subjectStat.index}__].name} + ' (' + *{subjects[__${subjectStat.index}__].type.toString().toLowerCase()} + ')'"></span>
                             <select class="custom-select" onchange="this.form.submit()"
