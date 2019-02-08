@@ -20,7 +20,7 @@ private fun Event.mapToView(name: String, type: ClassType): EventView {
 }
 
 private fun abbreviate(value: String) =
-        value.split(" ").map { it[0] }.joinToString(prefix = "[", postfix = "]", separator = "")
+        value.split(" ").map { it[0] }.map(Char::toUpperCase).joinToString(prefix = "[", postfix = "]", separator = "")
 
 fun SubjectViews.toRenderedEvents() = subjects
         .flatMap { it.occurences }
