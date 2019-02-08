@@ -51,6 +51,8 @@
                 <td>
                     <div id="calendar"></div>
                 </td>
+            </tr>
+            <tr>
                 <td>
                     <form th:action="@{/schedule/edit}">
                         <input class="btn btn-primary" type="submit" value="Edit">
@@ -60,7 +62,6 @@
                         <div class="form-group-sm" th:each="subject, subjectStat : *{subjects}">
                             <span
                                     th:text="*{subjects[__${subjectStat.index}__].name} + ' (' + *{subjects[__${subjectStat.index}__].type.toString().toLowerCase()} + ')'"></span>
-                            <br/>
                             <select class="custom-select" onchange="this.form.submit()"
                                     th:id="'subjects['+${subjectStat.index}+']'"
                                     th:name="'subjects['+${subjectStat.index}+']'">
