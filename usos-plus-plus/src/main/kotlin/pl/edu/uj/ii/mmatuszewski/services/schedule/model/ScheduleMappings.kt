@@ -7,15 +7,15 @@ import java.time.temporal.TemporalAdjusters.*
 
 fun List<Subject>.mapToView(): List<SubjectView> = map(Subject::mapToView)
 
-private fun Subject.mapToView(): SubjectView = SubjectView(id!!, name, type, occurences.map(Event::mapToView))
+private fun Subject.mapToView(): SubjectView = SubjectView(id!!, name, type, occurences.map { it.mapToView(type) })
 
-private fun Event.mapToView(): EventView {
+private fun Event.mapToView(type: ClassType): EventView {
     val dayOf = normalisedDateTime(dayOfWeek)
 
     val begin = dayOf.offsetByLocalTime(start)
     val end = dayOf.offsetByLocalTime(end)
 
-    return EventView(id!!, displayTitle, begin, end, selected)
+    return EventView(id!!, displayTitle + type.toString(), begin, end, selected)
 }
 
 fun SubjectViews.toRenderedEvents() = subjects
