@@ -61,7 +61,7 @@
                     <form method="post" th:action="@{/schedule}" th:object="${subjectViews}">
                         <div class="form-group-lg col-lg-6" th:each="subject, subjectStat : *{subjects}">
                             <span
-                                    th:text="*{subjects[__${subjectStat.index}__].name} + ' (' + *{subjects[__${subjectStat.index}__].type.toString().toLowerCase()} + ')'"></span>
+                                    th:text="*{subjects[__${subjectStat.index}__].name}"></span>
                             <select class="custom-select" onchange="this.form.submit()"
                                     th:id="'subjects['+${subjectStat.index}+']'"
                                     th:name="'subjects['+${subjectStat.index}+']'">
