@@ -3,6 +3,7 @@ package pl.edu.uj.ii.mmatuszewski.services.calendar.service
 import biweekly.Biweekly
 import biweekly.ICalendar
 import biweekly.component.VEvent
+import biweekly.io.TimezoneAssignment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
@@ -14,12 +15,14 @@ import pl.edu.uj.ii.mmatuszewski.services.calendar.model.EventDisplay
 import pl.edu.uj.ii.mmatuszewski.services.calendar.model.RemovedEvent
 import pl.edu.uj.ii.mmatuszewski.services.calendar.model.toDisplay
 import pl.edu.uj.ii.mmatuszewski.services.calendar.repository.RemovedEventsRepository
+import java.util.*
 
 @Service
 class CalendarService(private val removedEventsRepository: RemovedEventsRepository,
                       private val userRepository: UserRepository,
                       private val calendarDataProvider: CalendarDataProvider,
-                      private val calendarCleanupService: CalendarCleanupService) {
+                      private val calendarCleanupService: CalendarCleanupService,
+                      private val timeAdjustmentService: TimeAdjustmentService) {
 
     private val LOGGER = LoggerFactory.getLogger(CalendarService::class.java)
 
@@ -31,13 +34,21 @@ class CalendarService(private val removedEventsRepository: RemovedEventsReposito
         val originalCalendar = retrieveAll(owner)
         val newCalendar = ICalendar()
         newCalendar.timezoneInfo = originalCalendar.timezoneInfo
+        newCalendar.timezoneInfo.defaultTimezone = timezone()
         newCalendar.productId = originalCalendar.productId
         newCalendar.refreshInterval = originalCalendar.refreshInterval
-        originalCalendar.experimentalProperties.forEach { newCalendar.setExperimentalProperty(it.name, it.dataType, it.value) }
-        originalCalendar.events.filter { it.uid.value !in eventsToRemove }.forEach(newCalendar::addEvent)
+        originalCalendar.experimentalProperties.forEach {
+            newCalendar.setExperimentalProperty(it.name, it.dataType, it.value)
+        }
+        originalCalendar.events
+                .filter { it.uid.value !in eventsToRemove }
+                .map { timeAdjustmentService.adjust(it, owner) }
+                .forEach(newCalendar::addEvent)
         GlobalScope.launch { calendarCleanupService.enqueue(eventsToRemove, originalCalendar.events) }
         return Biweekly.write(newCalendar).go()
     }
+
+    private fun timezone() = TimezoneAssignment(TimeZone.getTimeZone("Europe/Warsaw"), "Europe/Warsaw")
 
     fun retrieveAllAsDisplay(owner: String): List<EventDisplay> {
         val filteredEvents = removedEventsRepository.findAllByOwner(owner).map { it.id }
